@@ -2,72 +2,85 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>2048 Game</title>
-    <link rel="stylesheet" href="./css/index.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Cyber 2048</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- 1. 修改顺序：先 main.css，再 console.css -->
+    <link rel="stylesheet" href="./css/main.css" />
+    <link rel="stylesheet" href="./css/console.css" />
   </head>
   <body>
-    <div class="container">
-      <nav>
-        <h1>2048</h1>
-        <div class="score">
-          <div class="now">
-            <span class="label">SCORE</span>
-            <span class="value">0</span>
-          </div>
-          <div class="best">
-            <span class="label">BEST</span>
-            <span class="value">0</span>
+    
+    <div class="bg-stars"></div>
+    <div class="retro-floor"></div>
+
+    <div class="console-wrapper">
+      <!-- 这里保留你原本的 SVG 代码，不需要动 -->
+      <svg class="console-bg" viewBox="0 0 400 700" xmlns="http://www.w3.org/2000/svg">
+         <defs><filter id="neon-glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5" result="coloredBlur"/><feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+         <rect x="10" y="10" width="380" height="680" rx="30" ry="30" fill="#2f3238" stroke="#4a4d52" stroke-width="2"/>
+         <rect x="20" y="20" width="360" height="660" rx="20" ry="20" fill="none" stroke="#00f3ff" stroke-width="2" filter="url(#neon-glow)" opacity="0.5"/>
+         <!-- 注意：path 高度是 415 -->
+         <path d="M 30 50 H 370 V 415 H 30 Z" fill="#111" stroke="#222" stroke-width="1" />
+         <text x="280" y="440" fill="#00f3ff" font-family="'Orbitron', sans-serif" font-size="12" letter-spacing="2">POWER</text>
+         <circle cx="345" cy="435" r="3" fill="#00f3ff" filter="url(#neon-glow)" />
+         <text x="40" y="440" fill="#ff0055" font-family="'Orbitron', sans-serif" font-weight="bold" font-size="22" letter-spacing="1">CYBER-2048</text>
+         <path d="M 80 510 h 40 v -40 h 40 v 40 h 40 v 40 h -40 v 40 h -40 v -40 h -40 z" fill="#222" stroke="#1a1a1a" stroke-width="2"/>
+         <circle cx="140" cy="530" r="10" fill="#111" />
+         <circle cx="320" cy="530" r="32" fill="#222" stroke="#1a1a1a" />
+         <circle cx="250" cy="570" r="32" fill="#222" stroke="#1a1a1a" />
+         <rect x="130" y="630" width="60" height="15" rx="7" fill="#222" transform="rotate(25 160 637)" />
+         <rect x="210" y="630" width="60" height="15" rx="7" fill="#222" transform="rotate(25 240 637)" />
+         <text x="135" y="670" fill="#888" font-family="'Orbitron', sans-serif" font-size="10" transform="rotate(25 135 670)">RESET</text>
+         <text x="215" y="670" fill="#888" font-family="'Orbitron', sans-serif" font-size="10" transform="rotate(25 215 670)">START</text>
+      </svg>
+
+      <div class="screen-layer">
+        <div class="header-info">
+          <div class="score-box">SCORE <span class="value" id="score-val">0</span></div>
+          <div class="best-box">BEST <span class="value" id="best-val">0</span></div>
+        </div>
+        
+        <main>
+          <div class="game-grid"></div>
+          <div class="tile-container"></div>
+        </main>
+
+        <div class="mask status" id="game-over-mask">
+          <div class="content">SYSTEM FAILURE</div>
+          <p class="press-start">PRESS START TO REBOOT</p>
+        </div>
+
+        <div class="mask start-menu" id="start-menu" style="display: flex;">
+          <div class="menu-title">SELECT KERNEL</div>
+          <div class="menu-options">
+            <button class="menu-opt" data-size="4">4 x 4 [STD]</button>
+            <button class="menu-opt" data-size="5">5 x 5 [EXT]</button>
+            <button class="menu-opt" data-size="6">6 x 6 [PRO]</button>
           </div>
         </div>
-      </nav>
-      <div class="desc">
-        <p>
-          <strong>Play 2048 Game online</strong>Join the numbers and get to the
-          <strong>2048 tile!</strong>
-        </p>
-        <button>New Game</button>
       </div>
-      <main>
-        <div class="game-grid">
-          <div class="grid-row">
-            <div class="grid-cell"></div>
-            <div class="grid-cell"></div>
-            <div class="grid-cell"></div>
-            <div class="grid-cell"></div>
-          </div>
-          <div class="grid-row">
-            <div class="grid-cell"></div>
-            <div class="grid-cell"></div>
-            <div class="grid-cell"></div>
-            <div class="grid-cell"></div>
-          </div>
-          <div class="grid-row">
-            <div class="grid-cell"></div>
-            <div class="grid-cell"></div>
-            <div class="grid-cell"></div>
-            <div class="grid-cell"></div>
-          </div>
-          <div class="grid-row">
-            <div class="grid-cell"></div>
-            <div class="grid-cell"></div>
-            <div class="grid-cell"></div>
-            <div class="grid-cell"></div>
-          </div>
-        </div>
-        <div class="tile-container">
-        </div>
-      </main>
-      <div class="mask status">
-        <div class="content">Game Over!</div>
-        <button>Try again</button>
+
+      <div class="controls-layer">
+        <button id="btn-up" class="d-pad up"></button>
+        <button id="btn-down" class="d-pad down"></button>
+        <button id="btn-left" class="d-pad left"></button>
+        <button id="btn-right" class="d-pad right"></button>
+        <button id="btn-a" class="action-btn btn-a">A</button>
+        <button id="btn-b" class="action-btn btn-b">B</button>
+        <button id="btn-select" class="menu-btn select"></button>
+        <button id="btn-start" class="menu-btn start"></button>
       </div>
     </div>
+
     <script src="./scripts/tile.js"></script>
     <script src="./scripts/grid.js"></script>
-    <script src="./scripts/render.js"></script>
-    <script src="./scripts/listener.js"></script>
     <script src="./scripts/storage.js"></script>
+    <script src="./scripts/render.js"></script>
     <script src="./scripts/manager.js"></script>
+    <script src="./scripts/listener.js"></script>
     <script src="./scripts/index.js"></script>
+    <!-- 2. 删除这里原来的 <script>new Manager()</script>，防止重复运行 -->
   </body>
 </html>
