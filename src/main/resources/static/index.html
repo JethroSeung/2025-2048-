@@ -49,15 +49,21 @@
 
         <div class="mask status" id="game-over-mask">
           <div class="content">SYSTEM FAILURE</div>
+           <div class="game-over-score" id="game-over-score">
+                Your score: 0
+           </div>
+           <div class="game-over-record" id="game-over-record" style="display:none;">
+                NEW RECORD!
+           </div>
           <p class="press-start">PRESS START TO REBOOT</p>
         </div>
 
         <div class="mask start-menu" id="start-menu" style="display: flex;">
-          <div class="menu-title">SELECT KERNEL</div>
+          <div class="menu-title">SELECT BOARD</div>
           <div class="menu-options">
             <button class="menu-opt" data-size="4">4 x 4 [STD]</button>
-            <button class="menu-opt" data-size="5">5 x 5 [EXT]</button>
-            <button class="menu-opt" data-size="6">6 x 6 [PRO]</button>
+            <button class="menu-opt" data-size="5">5 x 5 [PRO]</button>
+            <button class="menu-opt" data-size="6">6 x 6 [MAX]</button>
           </div>
         </div>
       </div>
@@ -74,6 +80,25 @@
       </div>
     </div>
 
+    <a href="/rank.html" class="rank-btn">排行榜</a>
+
+
+    <button class="logout-btn" onclick="logout()">LOGOUT</button>
+    <script>
+        function logout() {
+            const ok = confirm('CONFIRM LOGOUT?');
+            if (!ok) return;
+
+            localStorage.removeItem('token');
+            alert('LOGOUT SUCCESSFUL');
+
+            location.href = '/login.html';
+        }
+
+    </script>
+
+
+
     <script src="./scripts/tile.js"></script>
     <script src="./scripts/grid.js"></script>
     <script src="./scripts/storage.js"></script>
@@ -81,6 +106,5 @@
     <script src="./scripts/manager.js"></script>
     <script src="./scripts/listener.js"></script>
     <script src="./scripts/index.js"></script>
-    <!-- 2. 删除这里原来的 <script>new Manager()</script>，防止重复运行 -->
   </body>
 </html>

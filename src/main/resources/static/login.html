@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cyber2048 登录</title>
+  <!-- 引入新写的样式 -->
+  <link rel="stylesheet" href="./css/auth.css">
+</head>
+<body>
+
+<div class="auth-container">
+  <h2>SYSTEM LOGIN</h2>
+
+  <input id="username" placeholder="USERNAME" />
+  <br><br>
+  <input id="password" type="password" placeholder="PASSWORD" />
+  <br><br>
+
+  <!-- 按钮顺序没变，样式会自动应用 -->
+  <button onclick="login()">Access System</button>
+  <br><br>
+  <button onclick="goRegister()">New User Registration</button>
+</div>
+
+<script>
+  function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    fetch('http://localhost:8080/api/user/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ username, password })
+    })
+            .then(res => res.json())
+            .then(res => {
+              if (res.code === 0) {
+                localStorage.setItem('token', res.data);
+                alert('登录成功');
+                location.href = 'index.html'; // 跳回游戏
+              } else {
+                alert(res.msg || '登录失败');
+              }
+            });
+  }
+
+  function goRegister() {
+    location.href = 'register.html';
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber2048 排行榜</title>
+    <!-- 引入相同的字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./css/rank.css">
+</head>
+<body>
+
+<!-- 1. 复用主页的背景元素，保持沉浸感 -->
+<div class="bg-stars"></div>
+<div class="retro-floor"></div>
+<div class="scanlines"></div> <!-- 新增：老旧屏幕扫描线效果 -->
+
+<!-- 2. 主内容区域 -->
+<main class="rank-wrapper">
+    <h1 class="glitch-title" data-text="HALL OF FAME">HALL OF FAME</h1>
+    <p class="subtitle">TOP 10 SCORES</p>
+
+    <div class="rank-container">
+        <!-- 4x4 榜单 - 蓝色调 -->
+        <div class="rank-card theme-blue" data-layout="1">
+            <div class="card-header">
+                <span class="mode-icon">4x4</span>
+                <h2>STANDARD</h2>
+            </div>
+            <div class="list-header">
+                <span>RANK</span><span>SCORE</span>
+            </div>
+            <ol id="rank-4">
+                <!-- JS 生成示例，预留位置 -->
+                <li><span class="rank-num">1</span> <span class="p-name">CyberUser</span> <span class="p-score">20480</span></li>
+                <li><span class="rank-num">2</span> <span class="p-name">Neo</span> <span class="p-score">10240</span></li>
+                <li><span class="rank-num">3</span> <span class="p-name">Glitch</span> <span class="p-score">5120</span></li>
+                <!-- JS 将替换这里的内容 -->
+            </ol>
+        </div>
+
+        <!-- 5x5 榜单 - 粉色调 -->
+        <div class="rank-card theme-pink" data-layout="2">
+            <div class="card-header">
+                <span class="mode-icon">5x5</span>
+                <h2>PRO</h2>
+            </div>
+            <div class="list-header">
+                <span>RANK</span><span>SCORE</span>
+            </div>
+            <ol id="rank-5">
+                <!-- Loading 占位 -->
+                <li class="loading">CONNECTING...</li>
+            </ol>
+        </div>
+
+        <!-- 6x6 榜单 - 黄/绿色调 -->
+        <div class="rank-card theme-gold" data-layout="3">
+            <div class="card-header">
+                <span class="mode-icon">6x6</span>
+                <h2>PRO MAX</h2>
+            </div>
+            <div class="list-header">
+                <span>RANK</span><span>SCORE</span>
+            </div>
+            <ol id="rank-6">
+                <li class="loading">WAITING FOR DATA...</li>
+            </ol>
+        </div>
+    </div>
+
+    <br><br>
+    <div class="my-best-panel">
+        <div class="my-best-title" id="my-best-title">
+            PLAYER · BEST SCORES
+        </div>
+        <div class="my-best-values">
+            <span>4×4: <b id="my-best-4">-</b>&nbsp&nbsp&nbsp</span>
+            <span>5×5: <b id="my-best-5">-</b>&nbsp&nbsp&nbsp</span>
+            <span>6×6: <b id="my-best-6">-</b></span>
+        </div>
+    </div>
+
+
+    <div class="footer-action">
+        <a href="/index.html" class="back-btn">
+            <span class="arrow">←</span> RETURN
+        </a>
+    </div>
+</main>
+
+<script src="./scripts/rank.js"></script>
+</body>
+</html>

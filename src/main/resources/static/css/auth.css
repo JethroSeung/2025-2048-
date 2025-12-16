@@ -1,0 +1,149 @@
+/* css/auth.css */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+:root {
+    --neon-blue: #00f3ff;
+    --neon-pink: #ff0055;
+    --neon-green: #00ff66;
+    --bg-dark: #050505;
+    --panel-bg: rgba(20, 20, 20, 0.85);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: var(--bg-dark);
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* 绘制复古网格背景，不需要额外的 div */
+    background-image:
+            linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-position: center;
+}
+
+/*  CRT 扫描线效果 - 覆盖在全屏 */
+body::after {
+    content: " ";
+    display: block;
+    position: absolute;
+    top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 1;
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+}
+
+/* 登录/注册 容器框 */
+.auth-container {
+    position: relative;
+    z-index: 10;
+    background: var(--panel-bg);
+    padding: 40px 60px;
+    border: 1px solid #333;
+    border-radius: 10px;
+    box-shadow:
+            0 0 20px rgba(0, 243, 255, 0.1),
+            inset 0 0 40px rgba(0, 0, 0, 0.8);
+    text-align: center;
+    min-width: 300px;
+    backdrop-filter: blur(5px);
+    border-top: 2px solid var(--neon-blue);
+    border-bottom: 2px solid var(--neon-blue);
+}
+
+/* 标题样式 */
+h2 {
+    color: var(--neon-blue);
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-top: 0;
+    margin-bottom: 30px;
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+    font-size: 28px;
+}
+
+/* 输入框样式 */
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 5px 0;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid #444;
+    color: #fff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    outline: none;
+    box-sizing: border-box; /* 确保 padding 不会撑大宽度 */
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+input:focus {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 8px rgba(0, 243, 255, 0.3);
+    background: rgba(0, 243, 255, 0.05);
+}
+
+input::placeholder {
+    color: #666;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+/* 按钮基础样式 */
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+    border: none;
+    position: relative;
+    clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+
+/* 主要操作按钮 (登录/注册) - 蓝色 */
+button:first-of-type {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
+}
+
+button:first-of-type:hover {
+    background: #fff;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.8);
+    transform: translateY(-2px);
+}
+
+/* 次要操作按钮 (跳转/返回) - 幽灵按钮风格 */
+button:last-of-type {
+    background: transparent;
+    border: 1px solid var(--neon-pink);
+    color: var(--neon-pink);
+    margin-top: 15px;
+    clip-path: none; /* 次要按钮不需要切角，保持简单 */
+    border-radius: 4px;
+}
+
+button:last-of-type:hover {
+    background: rgba(255, 0, 85, 0.1);
+    box-shadow: 0 0 10px rgba(255, 0, 85, 0.4);
+    color: #fff;
+}
+
+/* 去掉原本 br 带来的过多间距，使用 CSS margin 控制 */
+br {
+    display: none;
+}

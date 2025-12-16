@@ -207,7 +207,7 @@ main .tile-container .tile-merged .tile-inner {
   z-index: 50;
 }
 .mask.status .content { color: var(--neon-pink); font-size: 32px; font-family: 'Orbitron', sans-serif; }
-.press-start { color: var(--neon-blue); animation: blink 1s infinite; margin-top: 20px; font-size: 18px; }
+.press-start { color: var(--neon-blue); animation: blink 3s infinite; margin-top: 20px; font-size: 18px; }
 
 .start-menu { display: flex; background-color: rgba(0,0,0,0.95) !important; }
 .menu-title { font-size: 24px; color: var(--neon-blue); margin-bottom: 30px; letter-spacing: 2px; }
@@ -246,3 +246,70 @@ button { appearance: none; -webkit-appearance: none; border: none; background: t
 .menu-btn.start { top: 622px; left: 210px; }
 
 @keyframes blink { 50% { opacity: 0; } }
+
+.rank-btn {
+  position: fixed;
+  height:34px;
+  width:70px;
+  bottom: 40px; /* <-- 改成 bottom，按钮就会去下面 */
+  right: 40px;
+  z-index: 9999; /* 建议改大一点，确保浮在所有图层上面 */
+  padding: 8px 14px;
+  background: rgba(0, 243, 255, 0.15);
+  border: 1px solid #00f3ff;
+  color: #00f3ff;
+  text-decoration: none;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  text-align: center;
+  line-height: 34px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px); /* 加上模糊效果更好看 */
+}
+.rank-btn:hover {
+  background: #00f3ff;
+  color: #000;
+}
+
+.game-over-score {
+  margin-top: 12px;
+  font-size: 18px;
+  color: #00f3ff;
+  letter-spacing: 1px;
+}
+
+.game-over-record {
+  margin-top: 6px;
+  font-size: 20px;
+  color: var(--neon-yellow);
+  letter-spacing: 2px;
+  text-shadow: 0 0 10px var(--neon-yellow);
+  animation: blink 1.5s infinite;
+}
+
+.logout-btn {
+  position: fixed;
+  height: 34px;
+  width: 105px;
+  bottom: 40px;
+  left: 40px;
+  z-index: 9999;
+  text-align: center;
+  background: rgba(255, 0, 85, 0.15);
+  border: 1px solid #ff0055;
+  color: #ff0055;
+
+  font-family: 'Orbitron', sans-serif;
+  font-size: 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  pointer-events: auto;
+}
+
+.logout-btn:hover {
+  background: #ff0055;
+  color: #000;
+}
+
+

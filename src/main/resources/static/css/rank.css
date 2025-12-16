@@ -1,0 +1,276 @@
+:root {
+    --neon-blue: #00f3ff;
+    --neon-pink: #ff0055;
+    --neon-gold: #f9f002;
+    --bg-dark: #050505;
+    --card-bg: rgba(20, 20, 25, 0.7);
+}
+
+body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background-color: var(--bg-dark);
+    color: #fff;
+    min-height: 100vh;
+    overflow-x: hidden;
+    /* 居中布局 */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+/* === 背景复刻 (与主页保持一致) === */
+.bg-stars {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+    z-index: -3;
+}
+.bg-stars::after {
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background-image: radial-gradient(2px 2px at 20px 30px, #eee, transparent), radial-gradient(2px 2px at 90px 40px, #fff, transparent);
+    background-size: 200px 200px; opacity: 0.4;
+}
+
+.retro-floor {
+    position: fixed; bottom: 0; left: -50%; width: 200%; height: 60%;
+    background: linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg);
+    animation: floor-move 10s linear infinite;
+    z-index: -2;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 40%);
+}
+@keyframes floor-move { from { background-position: 0 0; } to { background-position: 0 50px; } }
+
+/* 扫描线效果 */
+.scanlines {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0) 50%, rgba(0,0,0,0.2) 50%, rgba(0,0,0,0.2));
+    background-size: 100% 4px;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.3;
+}
+
+/* === 主容器 === */
+.rank-wrapper {
+    width: 90%;
+    max-width: 1200px;
+    text-align: center;
+    z-index: 10;
+}
+
+/* 标题样式 */
+h1.glitch-title {
+    font-size: 3rem;
+    margin: 0;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+    letter-spacing: 5px;
+}
+.subtitle {
+    color: #888;
+    letter-spacing: 2px;
+    margin-bottom: 40px;
+    font-size: 0.9rem;
+}
+
+/* 排行榜 Flex 布局 */
+.rank-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap; /* 移动端自动换行 */
+}
+
+/* === 单个排行榜卡片 === */
+.rank-card {
+    flex: 1;
+    min-width: 300px;
+    background: var(--card-bg);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(10px); /* 磨砂玻璃 */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    overflow: hidden;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.rank-card:hover {
+    transform: translateY(-5px);
+}
+
+/* 顶部装饰条 */
+.rank-card::before {
+    content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+    background: currentColor;
+    box-shadow: 0 0 10px currentColor;
+}
+
+/* 不同主题配色 */
+.theme-blue { color: var(--neon-blue); }
+.theme-pink { color: var(--neon-pink); }
+.theme-gold { color: var(--neon-gold); }
+
+/* 卡片头部 */
+.card-header {
+    padding: 20px;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.mode-icon {
+    display: inline-block;
+    padding: 4px 8px;
+    border: 1px solid currentColor;
+    font-size: 0.8rem;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 5px currentColor;
+}
+.card-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #fff;
+    text-shadow: 0 0 5px currentColor;
+}
+
+/* 列表头部 (Rank / Score) */
+.list-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+    font-size: 0.8rem;
+    color: #666;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+/* 列表样式 */
+ol {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ol li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.02);
+    font-size: 0.95rem;
+    transition: background 0.2s;
+}
+
+ol li:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+/* 排名数字 */
+.rank-num {
+    font-weight: bold;
+    width: 30px;
+    display: inline-block;
+    color: #555;
+}
+/* 前三名高亮 */
+ol li:nth-child(1) .rank-num { color: #ffd700; text-shadow: 0 0 5px #ffd700; }
+ol li:nth-child(2) .rank-num { color: #c0c0c0; text-shadow: 0 0 5px #c0c0c0; }
+ol li:nth-child(3) .rank-num { color: #cd7f32; text-shadow: 0 0 5px #cd7f32; }
+
+/* 名字和分数 */
+.p-name { color: #ddd; flex-grow: 1; text-align: left; padding-left: 10px; }
+.p-score { font-weight: bold; color: #fff; font-family: monospace; font-size: 1.1rem; }
+
+/* Loading 状态 */
+.loading {
+    justify-content: center;
+    color: #555;
+    font-style: italic;
+    padding: 40px 0;
+    animation: blink 2s infinite;
+}
+
+/* === 底部按钮 === */
+.footer-action {
+    margin-top: 50px;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 30px;
+    background: rgba(0, 243, 255, 0.1);
+    color: var(--neon-blue);
+    border: 1px solid var(--neon-blue);
+    text-decoration: none;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    backdrop-filter: blur(5px);
+}
+
+.back-btn:hover {
+    background: var(--neon-blue);
+    color: #000;
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
+}
+
+.arrow { font-weight: bold; }
+
+@keyframes blink { 50% { opacity: 0.5; } }
+
+/* 移动端适配 */
+@media (max-width: 900px) {
+    .rank-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .rank-card {
+        width: 100%;
+        max-width: 400px;
+    }
+
+    /* === 当前用户最佳成绩 === */
+.my-best-panel {
+        margin-top: 130px;
+        padding: 20px 30px;
+        background: rgba(0, 0, 0, 0.4);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 10px;
+        backdrop-filter: blur(6px);
+}
+
+.my-best-title {
+        margin-top: 30px;
+        font-size: 1.2rem;
+        letter-spacing: 3px;
+        color: #888;
+        margin-bottom: 22px;
+}
+
+    .my-best-values {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        font-size: 1.4rem;
+    }
+
+    .my-best-values span {
+        color: #ccc;
+        margin-right: 50px;
+    }
+
+    .my-best-values b {
+        color: #fff;
+        font-family: monospace;
+        font-size: 1.2rem;
+    }
+
+}

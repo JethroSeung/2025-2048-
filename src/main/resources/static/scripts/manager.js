@@ -1,11 +1,66 @@
 // scripts/manager.js
 
+
+
+function sizeToLayoutId(size) {
+  if (size === 4) return 1;
+  if (size === 5) return 2;
+  if (size === 6) return 3;
+  return 1;
+}
+
+
+Manager.prototype.fetchBestScore = function() {
+  if (!this.layoutId) return;
+
+  fetch(`/api/scores/my/best/${this.layoutId}`, {
+    method: 'GET',
+    headers: {
+      'Authorization': 'Bearer ' + localStorage.getItem('token')
+    }
+  })
+      .then(res => res.json())
+      .then(res => {
+        if (res && res.code === 0) {
+          this.bestScore = res.data || 0;
+          this.render.renderBestScore(this.bestScore);
+        }
+      })
+      .catch(() => {
+        this.bestScore = 0;
+        this.render.renderBestScore(0);
+      });
+};
+
+
+
+Manager.prototype.submitScore = function() {
+  if (!this.layoutId) return;
+
+  fetch('/api/scores', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ' + localStorage.getItem('token')
+  },
+  body: JSON.stringify({
+    layoutId: this.layoutId,
+    score: this.score
+  })
+ });
+
+};
+
+
+
 function Manager() {
   this.render = new Render();
   this.storage = new Storage();
   this.history = [];
-
+  this.bestScore = 0;
   this.bindMenuEvents();
+
+
   
   let self = this;
   this.listener = new Listener({
@@ -46,6 +101,7 @@ Manager.prototype.showMenu = function() {
 
 Manager.prototype.start = function(size) {
   this.size = size;
+   this.layoutId = sizeToLayoutId(size);
   this.render.initGrid(this.size);
   
   this.score = 0;
@@ -53,6 +109,7 @@ Manager.prototype.start = function(size) {
   this.grid = new Grid(this.size);
   this.history = [];
 
+  this.fetchBestScore(); 
   this.addRandomTile();
   this.addRandomTile();
   
@@ -78,18 +135,13 @@ Manager.prototype.addRandomTile = function() {
 };
 
 Manager.prototype.actuate = function() {
-  let bestScore = this.storage.getBestScore() || 0;
-  if (this.score > bestScore) {
-    bestScore = this.score;
-    this.storage.setBestScore(bestScore);
-  }
-
   this.render.render(this.grid, {
     score: this.score,
     status: this.status,
-    bestScore: bestScore
+    bestScore: this.bestScore
   });
 };
+
 
 Manager.prototype.listenerFn = function(direction) {
   if (this.status !== 'DOING') return;
@@ -151,6 +203,26 @@ Manager.prototype.listenerFn = function(direction) {
     this.addRandomTile();
     if (!this.movesAvailable()) {
       this.status = 'FAILURE';
+      const scoreEl = document.getElementById('game-over-score');
+      if (scoreEl) {
+        scoreEl.textContent = `Your score: ${this.score}`;
+      }
+
+
+      const recordEl = document.getElementById('game-over-record');
+      if (recordEl) {
+        if (this.score > this.bestScore) {
+          recordEl.style.display = 'block';
+
+          // ⭐ 同步更新内存里的 best
+          this.bestScore = this.score;
+          this.render.renderBestScore(this.bestScore);
+        } else {
+          recordEl.style.display = 'none';
+        }
+      }
+
+      this.submitScore();
     }
     this.actuate();
   }
