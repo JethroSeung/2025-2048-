@@ -60,6 +60,7 @@ function Manager() {
   this.bestScore = 0;
   this.bindMenuEvents();
 
+  this.hasWon = false;   // ⭐ 是否已经触发过胜利
 
   
   let self = this;
@@ -103,11 +104,14 @@ Manager.prototype.start = function(size) {
   this.size = size;
    this.layoutId = sizeToLayoutId(size);
   this.render.initGrid(this.size);
-  
+
+
   this.score = 0;
   this.status = 'DOING';
   this.grid = new Grid(this.size);
   this.history = [];
+
+  this.hasWon = false;
 
   this.fetchBestScore(); 
   this.addRandomTile();
@@ -140,6 +144,9 @@ Manager.prototype.actuate = function() {
     status: this.status,
     bestScore: this.bestScore
   });
+  if (this.status === 'WIN') {
+    this.showWin();
+  }
 };
 
 
@@ -184,6 +191,14 @@ Manager.prototype.listenerFn = function(direction) {
           tile.updatePosition(positions.next);
 
           self.score += merged.value;
+
+          // ⭐ 胜利判断（只触发一次）
+          if (merged.value === 64 && !self.hasWon) {
+            self.hasWon = true;
+            self.status = 'WIN';
+          }
+
+
         } else {
           // 普通移动
           self.moveTile(tile, positions.farthest);
@@ -295,4 +310,48 @@ Manager.prototype.moveTile = function(tile, cell) {
 
 Manager.prototype.positionsEqual = function(first, second) {
   return first.x === second.x && first.y === second.y;
+};
+
+
+Manager.prototype.showWin = function () {
+  // 显示遮罩
+  console.log('WIN SHOWN');
+  const mask = document.getElementById('game-over-mask');
+  if (!mask) return;
+
+  mask.style.display = 'flex';
+
+
+  const content = document.getElementById('status-text');
+  content.textContent = 'YOU WIN ！！';
+  content.classList.remove('failure');
+  content.classList.add('win');
+
+
+
+  // // 改标题
+  // const content = mask.querySelector('.content');
+  // if (content) {
+  //   content.textContent = 'YOU WIN ！！';
+  //   content.style.color = '#f9f002';              // 对应 console.css 里的 neon-yellow
+  //   content.style.textShadow = '0 0 20px #f9f002'; // 加强版发光
+  //   content.style.fontWeight = '800';             // 能够多粗就多粗
+  //   content.style.fontSize = '40px';              // 稍微放大一点点更霸气
+  // }
+
+  const scoreEl = document.getElementById('game-over-score');
+  if (scoreEl) {
+    scoreEl.textContent = `Your score: ${this.score}`;
+  }
+
+  const recordEl = document.getElementById('game-over-record');
+  if (recordEl) recordEl.style.display = 'none';
+
+  // 隐藏失败提示
+  const press = mask.querySelector('.press-start');
+  if (press) press.style.display = 'none';
+
+  // 显示胜利按钮
+  const actions = document.getElementById('win-actions');
+  if (actions) actions.style.display = 'flex';
 };

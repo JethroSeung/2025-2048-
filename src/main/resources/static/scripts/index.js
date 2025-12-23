@@ -1,4 +1,6 @@
-new Manager();
+//index.js
+window.manager = new Manager();
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const logoutBtn = document.getElementById('logout-btn');

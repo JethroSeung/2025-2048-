@@ -5,6 +5,4 @@ import java.util.List;
 
 public interface LayoutService {
     List<Layout> listAllLayouts();
-
-
 }

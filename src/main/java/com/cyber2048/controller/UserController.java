@@ -11,18 +11,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserController {
-
     private final UserService userService;
-
     @PostMapping("/register")
     public Result<?> register(@RequestBody RegisterRequest request) {
         userService.register(request);
         return Result.success();
     }
-
     @PostMapping("/login")
     public Result<?> login(@RequestBody LoginRequest request) {
         String token = userService.login(request);
         return Result.success(token);
     }
 }
+
