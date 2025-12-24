@@ -314,31 +314,29 @@ Manager.prototype.positionsEqual = function(first, second) {
 
 
 Manager.prototype.showWin = function () {
-  // 显示遮罩
   console.log('WIN SHOWN');
   const mask = document.getElementById('game-over-mask');
   if (!mask) return;
 
   mask.style.display = 'flex';
 
-
   const content = document.getElementById('status-text');
-  content.textContent = 'YOU WIN ！！';
+
+  // 1. 设置文字内容
+  content.textContent = '\u00A0\u00A0YOU WIN ！';
+
+  // 2. 移除旧类，添加新类 (保持你原有的逻辑)
   content.classList.remove('failure');
   content.classList.add('win');
 
+  // ⭐⭐ 3. [核心修改] 强制设置金色样式，确保变色 ⭐⭐
+  content.style.color = '#f9f002';              // 金色/霓虹黄
+  content.style.fontWeight = '800';             // 极粗
+  content.style.fontSize = '40px';              // 字体放大
+  content.style.textShadow = '0 0 20px #f9f002'; // 金色发光
+  content.style.letterSpacing = '2px';
 
-
-  // // 改标题
-  // const content = mask.querySelector('.content');
-  // if (content) {
-  //   content.textContent = 'YOU WIN ！！';
-  //   content.style.color = '#f9f002';              // 对应 console.css 里的 neon-yellow
-  //   content.style.textShadow = '0 0 20px #f9f002'; // 加强版发光
-  //   content.style.fontWeight = '800';             // 能够多粗就多粗
-  //   content.style.fontSize = '40px';              // 稍微放大一点点更霸气
-  // }
-
+  // 处理分数显示
   const scoreEl = document.getElementById('game-over-score');
   if (scoreEl) {
     scoreEl.textContent = `Your score: ${this.score}`;
@@ -347,7 +345,7 @@ Manager.prototype.showWin = function () {
   const recordEl = document.getElementById('game-over-record');
   if (recordEl) recordEl.style.display = 'none';
 
-  // 隐藏失败提示
+  // 隐藏失败提示 PRESS START
   const press = mask.querySelector('.press-start');
   if (press) press.style.display = 'none';
 
@@ -355,3 +353,6 @@ Manager.prototype.showWin = function () {
   const actions = document.getElementById('win-actions');
   if (actions) actions.style.display = 'flex';
 };
+
+
+

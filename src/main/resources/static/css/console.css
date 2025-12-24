@@ -383,5 +383,17 @@ button { appearance: none; -webkit-appearance: none; border: none; background: t
 }
 
 
+main .tile-container .tile.tile-128 .tile-inner.tile-font-large,
+main .tile-container .tile.tile-256 .tile-inner.tile-font-large,
+main .tile-container .tile.tile-512 .tile-inner.tile-font-large {
+  font-size: 24px !important;
+}
+
+/* 针对 4 位数 (1024, 2048) 如果以后玩到了，也防止出格 */
+main .tile-container .tile.tile-1024 .tile-inner.tile-font-large,
+main .tile-container .tile.tile-2048 .tile-inner.tile-font-large {
+  font-size: 18px !important;
+}
+
 
 

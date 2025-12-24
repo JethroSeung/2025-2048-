@@ -197,26 +197,30 @@ Render.prototype.renderStatus = function(status) {
 
   mask.style.display = 'flex';
 
-  // ⭐ 每次先清空旧样式，防止串状态
+  // ⭐ 每次先清空旧样式，防止 WIN 和 FAILURE 样式混淆
   content.style.color = '';
   content.style.fontSize = '';
   content.style.fontWeight = '';
   content.style.textShadow = '';
   content.style.letterSpacing = '';
 
+  // --- 处理 SYSTEM FAILURE ---
   if (status === 'FAILURE') {
     content.textContent = 'SYSTEM FAILURE';
-    content.style.color = '#ff0055';
-    content.style.fontSize = '32px';
-    content.style.fontWeight = 'bold';
+
+    // ⭐⭐ [核心修改] 强制红色，且去掉加粗 (normal) ⭐⭐
+    content.style.color = '#ff0055';       // 红色
+    content.style.fontWeight = 'normal';   // 👈 改为 normal (不加粗)
+    content.style.fontSize = '27px';
     content.style.textShadow = '0 0 10px #ff0055';
   }
 
+  // --- 处理 WIN (双重保险) ---
   if (status === 'WIN') {
-    content.textContent = 'YOU WIN';
+    content.textContent = ' YOU WIN';
     content.style.color = '#f9f002';
     content.style.fontSize = '40px';
-    content.style.fontWeight = '800';
+    content.style.fontWeight = '800';      // 加粗
     content.style.textShadow = '0 0 20px #f9f002';
     content.style.letterSpacing = '2px';
     content.style.zIndex = '9999999';
