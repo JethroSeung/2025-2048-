@@ -193,7 +193,7 @@ Manager.prototype.listenerFn = function(direction) {
           self.score += merged.value;
 
           // ⭐ 胜利判断（只触发一次）
-          if (merged.value === 64 && !self.hasWon) {
+          if (merged.value === 2048 && !self.hasWon) {
             self.hasWon = true;
             self.status = 'WIN';
           }
