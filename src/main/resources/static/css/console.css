@@ -313,3 +313,87 @@ button { appearance: none; -webkit-appearance: none; border: none; background: t
 }
 
 
+/* === console.css 底部修复代码 === */
+
+/* 1. 胜利/失败 按钮容器 */
+.win-actions {
+  margin-top: 20px;
+  display: flex; /* 配合 JS 的 display: flex 使用 */
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  z-index: 100; /* 确保容器在最上层 */
+  position: relative; /* 让 z-index 生效 */
+}
+
+/* 2. 胜利/失败 按钮样式 */
+.win-actions button {
+  /* 强制覆盖全局 button 样式 */
+  position: relative !important; /* 关键：使用 relative 支持 z-index，且不脱离文档流 */
+  z-index: 101 !important;       /* 关键：确保比 Mask 背景高 */
+
+  /* 视觉样式 */
+  appearance: none;
+  padding: 10px 22px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 2px;
+  cursor: pointer;
+
+  /* 强制显色 */
+  background-color: rgba(0, 243, 255, 0.15) !important;
+  border: 1px solid #00f3ff !important;
+  color: #00f3ff !important;
+  border-radius: 6px;
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.1);
+
+  transition: all 0.2s ease;
+}
+
+/* 3. 按钮悬停效果 */
+.win-actions button:hover {
+  background-color: #00f3ff !important;
+  color: #000 !important;
+  box-shadow: 0 0 20px rgba(0, 243, 255, 0.8);
+  transform: scale(1.05);
+}
+
+/* 4. 点击效果 */
+.win-actions button:active {
+  transform: scale(0.95);
+}
+
+/* 默认失败态 */
+#status-text.failure {
+  color: #ff0055;
+  font-size: 32px;
+  font-weight: bold;
+  text-shadow: 0 0 10px #ff0055;
+  letter-spacing: normal;
+}
+
+/* 胜利态 */
+#status-text.win {
+  color: #f9f002;
+  font-size: 40px;
+  font-weight: 800;
+  text-shadow: 0 0 20px #f9f002;
+  letter-spacing: 2px;
+}
+
+
+main .tile-container .tile.tile-128 .tile-inner.tile-font-large,
+main .tile-container .tile.tile-256 .tile-inner.tile-font-large,
+main .tile-container .tile.tile-512 .tile-inner.tile-font-large {
+  font-size: 24px !important;
+}
+
+/* 针对 4 位数 (1024, 2048) 如果以后玩到了，也防止出格 */
+main .tile-container .tile.tile-1024 .tile-inner.tile-font-large,
+main .tile-container .tile.tile-2048 .tile-inner.tile-font-large {
+  font-size: 18px !important;
+}
+
+
+

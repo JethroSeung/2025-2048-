@@ -11,18 +11,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
 public class AuthController {
-
     private final UserService userService;
-
     @PostMapping("/register")
     public String register(@RequestBody RegisterRequest request) {
         userService.register(request);
         return "ok";
     }
-
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request) {
         String token = userService.login(request);
         return new LoginResponse(token, request.getUsername());
     }
 }
+

@@ -44,7 +44,7 @@
                     alert('注册成功，请登录');
                     location.href = 'login.html';
                 } else {
-                    alert(res.msg || '注册失败');
+                    alert(res.msg || '注册失败 用户名已存在');
                 }
             })
             .catch(() => {

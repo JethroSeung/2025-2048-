@@ -1,3 +1,5 @@
+//render.js
+
 function Render() {
   this.tileContainer = document.querySelector('.tile-container');
   this.scoreContainer = document.querySelector('#score-val');
@@ -158,15 +160,74 @@ Render.prototype.renderScore = function(score) {
 Render.prototype.renderBestScore = function(bestScore) {
   this.bestScoreContainer.innerHTML = bestScore;
 };
+
+// Render.prototype.renderStatus = function(status) {
+//   if (status === 'DOING') {
+//     // 隐藏遮罩
+//     this.statusContainer.style.display = 'none';
+//   } else if (status === 'FAILURE') {
+//     // 显示遮罩
+//     this.statusContainer.style.display = 'flex';
+//
+//     const content = this.statusContainer.querySelector('.content');
+//
+//     content.textContent = 'SYSTEM FAILURE';
+//     content.classList.remove('win');
+//     content.classList.add('failure');
+//
+//   // if (status === 'FAILURE') {
+//   //     content.textContent = 'SYSTEM FAILURE';
+//   //     content.classList.remove('win');
+//   //     content.classList.add('failure');
+//   //
+//   // }
+//   }
+//  };
+
+
+
 Render.prototype.renderStatus = function(status) {
+  const mask = this.statusContainer;
+  const content = mask.querySelector('.content');
+
   if (status === 'DOING') {
-    this.statusContainer.style.display = 'none';
-  } else if (status === 'WIN' || status === 'FAILURE') {
-    this.statusContainer.style.display = 'flex';
-    this.statusContainer.querySelector('.content').innerHTML = 
-      (status === 'WIN') ? 'SYSTEM HACKED' : 'SYSTEM FAILURE';
+    mask.style.display = 'none';
+    return;
+  }
+
+  mask.style.display = 'flex';
+
+  // ⭐ 每次先清空旧样式，防止 WIN 和 FAILURE 样式混淆
+  content.style.color = '';
+  content.style.fontSize = '';
+  content.style.fontWeight = '';
+  content.style.textShadow = '';
+  content.style.letterSpacing = '';
+
+  // --- 处理 SYSTEM FAILURE ---
+  if (status === 'FAILURE') {
+    content.textContent = 'SYSTEM FAILURE';
+
+    // ⭐⭐ [核心修改] 强制红色，且去掉加粗 (normal) ⭐⭐
+    content.style.color = '#ff0055';       // 红色
+    content.style.fontWeight = 'normal';   // 👈 改为 normal (不加粗)
+    content.style.fontSize = '27px';
+    content.style.textShadow = '0 0 10px #ff0055';
+  }
+
+  // --- 处理 WIN (双重保险) ---
+  if (status === 'WIN') {
+    content.textContent = ' YOU WIN';
+    content.style.color = '#f9f002';
+    content.style.fontSize = '40px';
+    content.style.fontWeight = '800';      // 加粗
+    content.style.textShadow = '0 0 20px #f9f002';
+    content.style.letterSpacing = '2px';
+    content.style.zIndex = '9999999';
   }
 };
+
+
 Render.prototype.empty = function() {
   this.tileContainer.innerHTML = '';
 };

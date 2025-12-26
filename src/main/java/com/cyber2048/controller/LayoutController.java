@@ -9,15 +9,13 @@ import java.util.List;
 
 @RestController
 public class LayoutController {
-
     private final LayoutService layoutService;
-
     public LayoutController(LayoutService layoutService) {
         this.layoutService = layoutService;
     }
-
     @GetMapping("/api/layouts")
     public List<Layout> getAllLayouts() {
         return layoutService.listAllLayouts();
     }
 }
+

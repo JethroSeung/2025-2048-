@@ -12,8 +12,7 @@ import java.util.Map;
 
 @Mapper
 public interface ScoreMapper extends BaseMapper<Score> {
-
-    // ① 单 layout 的最高分（你原来的，保留）
+    //单 layout 的最高分
     @Select("""
         SELECT MAX(score)
         FROM scores
@@ -24,7 +23,6 @@ public interface ScoreMapper extends BaseMapper<Score> {
             @Param("userId") Long userId,
             @Param("layoutId") Integer layoutId
     );
-
     // ② 所有 layout 的最高分（新增）
     @Select("""
         SELECT layout_id AS layout_id, MAX(score) AS bestScore
@@ -35,8 +33,6 @@ public interface ScoreMapper extends BaseMapper<Score> {
     List<Map<String, Object>> selectMyBestScoreAll(
             @Param("userId") Long userId
     );
-
-
     @Select("""
     SELECT u.username AS username, s.score AS score
     FROM scores s
@@ -46,6 +42,6 @@ public interface ScoreMapper extends BaseMapper<Score> {
     LIMIT 10
 """)
     List<ScoreRankVO> selectTop10ByLayout(Integer layoutId);
-
-
 }
+
+

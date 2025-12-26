@@ -9,6 +9,55 @@
     <!-- 1. 修改顺序：先 main.css，再 console.css -->
     <link rel="stylesheet" href="./css/main.css" />
     <link rel="stylesheet" href="./css/console.css" />
+    <style>
+        #win-actions {
+            display: none;
+            gap: 15px;          /* 间距稍微改小一点 */
+            margin-top: 25px;
+            z-index: 9999;
+            position: relative;
+            justify-content: center; /* 确保居中 */
+            width: 100%;             /* 限制宽度 */
+        }
+
+        /* 按钮样式大幅调整 */
+        #win-actions button {
+            /* 1. 颜色与边框 */
+            background-color: rgba(0, 243, 255, 0.15) !important;
+            border: 1px solid #00f3ff !important; /* 线条改细一点更精致 */
+            color: #00f3ff !important;
+
+            /* 2. 布局与定位 */
+            position: relative !important;
+            display: inline-block !important; /* 防止占满一行 */
+
+            /* 3. ⭐ 关键修改：变小、变圆 */
+            width: auto !important;
+            padding: 8px 16px !important;    /* 缩小内边距 (原 10px 30px) */
+            border-radius: 20px !important;  /* 圆角矩形 (原 6px) */
+            font-size: 13px !important;      /* 字号改小 (原 16px) */
+
+            /* 4. 可见性与交互 */
+            opacity: 1 !important;
+            visibility: visible !important;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+            pointer-events: auto !important;
+
+            /* 5. 特效 */
+            box-shadow: 0 0 8px rgba(0, 243, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+
+        #win-actions button:hover {
+            background-color: #00f3ff !important;
+            color: #000 !important;
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.6);
+            transform: scale(1.05);
+        }
+    </style>
   </head>
   <body>
     
@@ -48,17 +97,25 @@
         </main>
 
         <div class="mask status" id="game-over-mask">
-          <div class="content">SYSTEM FAILURE</div>
+          <div class="content" id="status-text">SYSTEM FAILURE</div>
            <div class="game-over-score" id="game-over-score">
                 Your score: 0
            </div>
            <div class="game-over-record" id="game-over-record" style="display:none;">
                 NEW RECORD!
            </div>
+
+            <div class="win-actions" id="win-actions" style="display:none;">
+                <button onclick="managerContinue()">CONTINUE</button>
+                <button onclick="managerRestart()">RESTART</button>
+            </div>
           <p class="press-start">PRESS START TO REBOOT</p>
         </div>
 
-        <div class="mask start-menu" id="start-menu" style="display: flex;">
+
+
+
+          <div class="mask start-menu" id="start-menu" style="display: flex;">
           <div class="menu-title">SELECT BOARD</div>
           <div class="menu-options">
             <button class="menu-opt" data-size="4">4 x 4 [STD]</button>
@@ -80,7 +137,7 @@
       </div>
     </div>
 
-    <a href="/rank.html" class="rank-btn">排行榜</a>
+    <a href="/rank.html" class="rank-btn">RANK</a>
 
 
     <button class="logout-btn" onclick="logout()">LOGOUT</button>
@@ -95,6 +152,22 @@
             location.href = '/login.html';
         }
 
+    </script>
+    <script>
+        function managerContinue() {
+            const mask = document.getElementById('game-over-mask');
+            const actions = document.getElementById('win-actions');
+
+            if (mask) mask.style.display = 'none';
+            if (actions) actions.style.display = 'none';
+
+            // ⭐ 继续游戏
+            manager.status = 'DOING';
+        }
+
+        function managerRestart() {
+            location.reload(); // 简单粗暴，效果最好
+        }
     </script>
 
 
